@@ -1,0 +1,68 @@
+{
+	"T20ESC": {
+		"Title": "Escalar Ameaça",
+		"Button": "Escalar Ameaça",
+		"CurrentND": "ND atual",
+		"TargetND": "ND de destino",
+		"Current": "atual",
+		"UpdateText": "Atualizar textos (descrições, CDs e linha de ataques)",
+		"Apply": "Aplicar nesta ficha",
+		"Copy": "Criar cópia",
+		"Cancel": "Cancelar",
+		"CopyName": "{name} (ND {nd})",
+		"ConfirmTitle": "Escalar Ameaça",
+		"ConfirmApply": "Alterar <strong>{name}</strong> para ND {nd}? A ficha original será modificada.",
+		"SameND": "O ND de destino é igual ao atual. Os valores serão apenas reajustados à tabela.",
+		"TextUpdated": "Descrição atualizada (CDs, testes e dano no texto).",
+		"Role": { "label": "Papel", "solo": "Solo", "lackey": "Lacaio", "special": "Especial" },
+		"Tier": { "iniciante": "Iniciante", "veterano": "Veterano", "campeao": "Campeão", "lenda": "Lenda", "lmais": "L+" },
+		"DamageMode": {
+			"label": "Dano dos ataques",
+			"table": "Igualar ao dano médio da tabela",
+			"proportional": "Manter proporção atual"
+		},
+		"Ref": { "attack": "Ataque", "damage": "Dano", "defense": "Defesa", "saves": "Res. F/M/Fr", "hp": "PV", "dc": "CD" },
+		"Section": {
+			"general": "Geral",
+			"defense": "Defesa e Pontos de Vida",
+			"saves": "Testes de Resistência",
+			"attacks": "Ataques",
+			"abilities": "Habilidades",
+			"skills": "Perícias",
+			"text": "Textos da ficha"
+		},
+		"Label": {
+			"ND": "Nível de Desafio",
+			"role": "Papel",
+			"patamar": "Patamar",
+			"defesa": "Defesa",
+			"pv": "Pontos de Vida",
+			"pm": "Pontos de Mana",
+			"cd": "CD de habilidades",
+			"damagePrimary": "Dano médio por rodada",
+			"damageSecondary": "Dano médio (ataque secundário)",
+			"untrained": "Perícias não treinadas",
+			"ataquescac": "Corpo a Corpo",
+			"ataquesad": "À Distância",
+			"tesouro": "Tesouro"
+		},
+		"Warn": {
+			"roleMissing": "A ficha não tem papel definido; usando o papel selecionado.",
+			"tierUp": "A ameaça sobe de patamar: considere adicionar 1–2 habilidades (2–3 para especiais).",
+			"tierDown": "A ameaça desce de patamar: considere remover 1–2 habilidades (2–3 para especiais).",
+			"spells": "Magias não têm o dano alterado (seguem as regras de magia). A CD delas acompanha a CD de habilidades.",
+			"formula": "Não foi possível ajustar automaticamente o dano de \"{name}\" (fórmula complexa)."
+		},
+		"Notify": {
+			"applied": "{name} agora é ND {nd}.",
+			"copied": "Cópia criada: {name} (ND {nd}).",
+			"error": "Erro ao escalar ameaça: {error}",
+			"npcOnly": "Apenas ameaças (NPC) podem ser escaladas."
+		},
+		"Settings": {
+			"damageMode": { "name": "Dano padrão dos ataques", "hint": "Como o dano dos ataques é ajustado ao escalar." },
+			"updateText": { "name": "Atualizar textos por padrão", "hint": "Ajusta CDs, testes e fórmulas de dano dentro das descrições." },
+			"openCopy": { "name": "Abrir cópia criada", "hint": "Abre a ficha da cópia depois de criá-la." }
+		}
+	}
+}

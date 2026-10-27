@@ -1,0 +1,33 @@
+{
+	"id": "t20-escalar-ameacas",
+	"title": "Tormenta20 — Escalar Ameaças",
+	"description": "Escala ameaças (NPCs) do sistema Tormenta20 para cima ou para baixo de ND, ajustando ataque, dano médio, Defesa, PV, resistências, perícias e CD de habilidades conforme as regras de criação de ameaças.",
+	"version": "1.0.0",
+	"authors": [{ "name": "fernandowrpg", "url": "https://github.com/fernandowrpg" }],
+	"compatibility": {
+		"minimum": "13",
+		"verified": "13.351",
+		"maximum": "14"
+	},
+	"relationships": {
+		"systems": [
+			{
+				"id": "tormenta20",
+				"type": "system",
+				"compatibility": { "minimum": "1.5.0" }
+			}
+		]
+	},
+	"esmodules": ["scripts/main.mjs"],
+	"styles": ["styles/module.css"],
+	"languages": [
+		{ "lang": "pt-BR", "name": "Português (Brasil)", "path": "lang/pt-BR.json" },
+		{ "lang": "en", "name": "English", "path": "lang/en.json" }
+	],
+	"url": "https://github.com/fernandowrpg/t20-escalar-ameacas",
+	"manifest": "https://github.com/fernandowrpg/t20-escalar-ameacas/releases/latest/download/module.json",
+	"download": "https://github.com/fernandowrpg/t20-escalar-ameacas/releases/latest/download/module.zip",
+	"readme": "https://github.com/fernandowrpg/t20-escalar-ameacas#readme",
+	"bugs": "https://github.com/fernandowrpg/t20-escalar-ameacas/issues",
+	"license": "LICENSE"
+}

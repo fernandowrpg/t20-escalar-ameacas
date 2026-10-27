@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Testes
+        run: npm test
+
+      - name: Definir versão
+        id: version
+        run: |
+          BASE=$(jq -r '.version' module.json | cut -d. -f1-2)
+          VERSION="${BASE}.${{ github.run_number }}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Versão: $VERSION"
+
+      - name: Preparar module.json
+        run: |
+          REPO="https://github.com/${{ github.repository }}"
+          VERSION="${{ steps.version.outputs.version }}"
+          jq --arg v "$VERSION" \
+             --arg url "$REPO" \
+             --arg manifest "$REPO/releases/latest/download/module.json" \
+             --arg download "$REPO/releases/download/v$VERSION/module.zip" \
+             '.version=$v | .url=$url | .manifest=$manifest | .download=$download' \
+             module.json > module.tmp && mv module.tmp module.json
+          cat module.json
+
+      - name: Empacotar
+        run: zip -r module.zip module.json scripts templates styles lang LICENSE README.md
+
+      - name: Publicar release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          NOTES=$(git log -1 --pretty=format:"%s%n%n%b")
+          gh release create "v$VERSION" module.json module.zip \
+            --title "v$VERSION" \
+            --notes "$NOTES" \
+            --target "${{ github.sha }}" \
+            --latest

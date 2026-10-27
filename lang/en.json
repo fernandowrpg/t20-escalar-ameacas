@@ -1,0 +1,68 @@
+{
+	"T20ESC": {
+		"Title": "Scale Threat",
+		"Button": "Scale Threat",
+		"CurrentND": "Current CR",
+		"TargetND": "Target CR",
+		"Current": "current",
+		"UpdateText": "Update texts (descriptions, DCs and attack line)",
+		"Apply": "Apply to this sheet",
+		"Copy": "Create copy",
+		"Cancel": "Cancel",
+		"CopyName": "{name} (CR {nd})",
+		"ConfirmTitle": "Scale Threat",
+		"ConfirmApply": "Change <strong>{name}</strong> to CR {nd}? The original sheet will be modified.",
+		"SameND": "Target CR equals the current one. Values will only be readjusted to the table.",
+		"TextUpdated": "Description updated (DCs, checks and damage in text).",
+		"Role": { "label": "Role", "solo": "Solo", "lackey": "Minion", "special": "Special" },
+		"Tier": { "iniciante": "Beginner", "veterano": "Veteran", "campeao": "Champion", "lenda": "Legend", "lmais": "L+" },
+		"DamageMode": {
+			"label": "Attack damage",
+			"table": "Match table average damage",
+			"proportional": "Keep current proportion"
+		},
+		"Ref": { "attack": "Attack", "damage": "Damage", "defense": "Defense", "saves": "Saves S/M/W", "hp": "HP", "dc": "DC" },
+		"Section": {
+			"general": "General",
+			"defense": "Defense and Hit Points",
+			"saves": "Saving Throws",
+			"attacks": "Attacks",
+			"abilities": "Abilities",
+			"skills": "Skills",
+			"text": "Sheet texts"
+		},
+		"Label": {
+			"ND": "Challenge Rating",
+			"role": "Role",
+			"patamar": "Tier",
+			"defesa": "Defense",
+			"pv": "Hit Points",
+			"pm": "Mana Points",
+			"cd": "Ability DC",
+			"damagePrimary": "Average damage per round",
+			"damageSecondary": "Average damage (secondary attack)",
+			"untrained": "Untrained skills",
+			"ataquescac": "Melee",
+			"ataquesad": "Ranged",
+			"tesouro": "Treasure"
+		},
+		"Warn": {
+			"roleMissing": "The sheet has no role; using the selected role.",
+			"tierUp": "The threat moves up a tier: consider adding 1–2 abilities (2–3 for specials).",
+			"tierDown": "The threat moves down a tier: consider removing 1–2 abilities (2–3 for specials).",
+			"spells": "Spell damage is not changed (spells follow their own rules). Their DC follows the ability DC.",
+			"formula": "Could not automatically adjust the damage of \"{name}\" (complex formula)."
+		},
+		"Notify": {
+			"applied": "{name} is now CR {nd}.",
+			"copied": "Copy created: {name} (CR {nd}).",
+			"error": "Error scaling threat: {error}",
+			"npcOnly": "Only threats (NPC) can be scaled."
+		},
+		"Settings": {
+			"damageMode": { "name": "Default attack damage", "hint": "How attack damage is adjusted when scaling." },
+			"updateText": { "name": "Update texts by default", "hint": "Adjusts DCs, checks and damage formulas inside descriptions." },
+			"openCopy": { "name": "Open created copy", "hint": "Opens the copy's sheet after creating it." }
+		}
+	}
+}

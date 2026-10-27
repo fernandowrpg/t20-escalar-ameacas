@@ -1,0 +1,128 @@
+<div class="t20esc">
+	<header class="t20esc-header">
+		<img src="{{img}}" alt="" class="t20esc-portrait">
+		<div class="t20esc-nds">
+			<div class="t20esc-nd t20esc-nd--from">
+				<span class="t20esc-nd-caption">{{localize "T20ESC.CurrentND"}}</span>
+				<span class="t20esc-nd-value">ND {{current.nd}}</span>
+				<span class="t20esc-nd-meta">{{current.tier}} · {{current.role}}</span>
+			</div>
+			<i class="fa-solid fa-arrow-right t20esc-arrow"></i>
+			<div class="t20esc-nd t20esc-nd--to">
+				<span class="t20esc-nd-caption">{{localize "T20ESC.TargetND"}}</span>
+				<span class="t20esc-nd-value">ND {{#if target}}{{target.nd}}{{else}}?{{/if}}</span>
+				{{#if target}}<span class="t20esc-nd-meta">{{target.tier}} · {{target.role}}</span>{{/if}}
+			</div>
+		</div>
+	</header>
+
+	<fieldset class="t20esc-options">
+		<div class="form-group">
+			<label>{{localize "T20ESC.TargetND"}}</label>
+			<select name="targetND">
+				{{#each ndOptions}}
+				<option value="{{value}}" {{#if selected}}selected{{/if}}>ND {{label}}{{#if current}} ({{localize "T20ESC.Current"}}){{/if}}</option>
+				{{/each}}
+			</select>
+		</div>
+		<div class="form-group">
+			<label>{{localize "T20ESC.Role.label"}}</label>
+			<select name="role">
+				{{#each roleOptions}}
+				<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+				{{/each}}
+			</select>
+		</div>
+		<div class="form-group">
+			<label>{{localize "T20ESC.DamageMode.label"}}</label>
+			<select name="damageMode">
+				{{#each damageOptions}}
+				<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+				{{/each}}
+			</select>
+		</div>
+		<div class="form-group">
+			<label>{{localize "T20ESC.UpdateText"}}</label>
+			<input type="checkbox" name="updateText" {{#if updateText}}checked{{/if}}>
+		</div>
+	</fieldset>
+
+	{{#if table}}
+	<table class="t20esc-ref">
+		<thead>
+			<tr>
+				<th></th>
+				<th>{{localize "T20ESC.Ref.attack"}}</th>
+				<th>{{localize "T20ESC.Ref.damage"}}</th>
+				<th>{{localize "T20ESC.Ref.defense"}}</th>
+				<th>{{localize "T20ESC.Ref.saves"}}</th>
+				<th>{{localize "T20ESC.Ref.hp"}}</th>
+				<th>{{localize "T20ESC.Ref.dc"}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th>ND {{current.nd}}</th>
+				<td>+{{table.from.ataque}}</td><td>{{table.from.dano}}</td><td>{{table.from.defesa}}</td>
+				<td>{{table.from.forte}}/{{table.from.media}}/{{table.from.fraca}}</td><td>{{table.from.pv}}</td><td>{{table.from.cd}}</td>
+			</tr>
+			<tr>
+				<th>ND {{target.nd}}</th>
+				<td>+{{table.to.ataque}}</td><td>{{table.to.dano}}</td><td>{{table.to.defesa}}</td>
+				<td>{{table.to.forte}}/{{table.to.media}}/{{table.to.fraca}}</td><td>{{table.to.pv}}</td><td>{{table.to.cd}}</td>
+			</tr>
+		</tbody>
+	</table>
+	{{/if}}
+
+	<section class="t20esc-preview">
+		{{#if error}}
+		<p class="t20esc-error"><i class="fa-solid fa-triangle-exclamation"></i> {{error}}</p>
+		{{/if}}
+
+		{{#if warnings.length}}
+		<ul class="t20esc-warnings">
+			{{#each warnings}}<li><i class="fa-solid fa-circle-info"></i> {{this}}</li>{{/each}}
+		</ul>
+		{{/if}}
+
+		{{#if sameND}}
+		<p class="t20esc-hint">{{localize "T20ESC.SameND"}}</p>
+		{{/if}}
+
+		{{#each sections}}
+		<h3 class="t20esc-section">{{label}}</h3>
+		<table class="t20esc-changes">
+			<tbody>
+				{{#each rows}}
+				{{#if long}}
+				<tr class="t20esc-row--long">
+					<td colspan="3">
+						<div class="t20esc-long-label">{{label}}</div>
+						{{#if textOnly}}
+						<div class="t20esc-long-note">{{localize "T20ESC.TextUpdated"}}</div>
+						{{else}}
+						<div class="t20esc-long-from">{{from}}</div>
+						<div class="t20esc-long-to">{{to}}</div>
+						{{/if}}
+					</td>
+				</tr>
+				{{else}}
+				<tr class="{{#unless changed}}t20esc-row--same{{/unless}}">
+					<th>{{label}}</th>
+					<td class="t20esc-from">{{from}}</td>
+					<td class="t20esc-to"><i class="fa-solid fa-arrow-right"></i> {{to}}</td>
+				</tr>
+				{{/if}}
+				{{/each}}
+			</tbody>
+		</table>
+		{{/each}}
+	</section>
+
+	<footer class="form-footer t20esc-footer">
+		<button type="button" data-action="cancel"><i class="fa-solid fa-xmark"></i> {{localize "T20ESC.Cancel"}}</button>
+		<button type="button" data-action="copy" {{#if error}}disabled{{/if}}><i class="fa-solid fa-copy"></i> {{localize "T20ESC.Copy"}}</button>
+		<button type="button" data-action="apply" {{#if error}}disabled{{/if}}><i class="fa-solid fa-check"></i> {{localize "T20ESC.Apply"}}</button>
+	</footer>
+</div>
