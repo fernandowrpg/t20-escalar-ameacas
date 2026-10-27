@@ -16,7 +16,7 @@ export class ScaleThreatApp extends HandlebarsApplicationMixin(ApplicationV2) {
 		const current = String(actor._source.system?.attributes?.nd ?? actor.system.attributes?.nd ?? "1");
 		const idx = Math.max(0, ND_LIST.indexOf(current));
 		const role = normalizeRole(actor._source.system?.detalhes?.role);
-		this.state = {
+		this.scaleOptions = {
 			targetND: ND_LIST[Math.min(ND_LIST.length - 1, idx + 1)],
 			role: role ?? "solo",
 			damageMode: game.settings.get(MODULE_ID, "damageMode"),
@@ -50,7 +50,7 @@ export class ScaleThreatApp extends HandlebarsApplicationMixin(ApplicationV2) {
 		let plan;
 		let error = null;
 		try {
-			plan = planFor(this.actor, this.state);
+			plan = planFor(this.actor, this.scaleOptions);
 		} catch (err) {
 			console.error(`${MODULE_ID} |`, err);
 			error = err.message;
@@ -99,15 +99,15 @@ export class ScaleThreatApp extends HandlebarsApplicationMixin(ApplicationV2) {
 			img: this.actor.img,
 			current: { nd: current, tier: tierLabel(patamar(current)), role: roleLabel(normalizeRole(this.actor._source.system?.detalhes?.role) ?? "") },
 			target: plan ? { nd: plan.to.nd, tier: tierLabel(plan.to.patamar), role: roleLabel(plan.to.role) } : null,
-			ndOptions: ND_LIST.map((nd) => ({ value: nd, label: nd, selected: nd === this.state.targetND, current: nd === current })),
-			roleOptions: ROLES.map((r) => ({ value: r, label: roleLabel(r), selected: r === this.state.role })),
+			ndOptions: ND_LIST.map((nd) => ({ value: nd, label: nd, selected: nd === this.scaleOptions.targetND, current: nd === current })),
+			roleOptions: ROLES.map((r) => ({ value: r, label: roleLabel(r), selected: r === this.scaleOptions.role })),
 			damageOptions: ["table", "proportional"].map((m) => ({
 				value: m,
 				label: loc(`T20ESC.DamageMode.${m}`),
-				selected: m === this.state.damageMode
+				selected: m === this.scaleOptions.damageMode
 			})),
-			updateText: this.state.updateText,
-			sameND: current === this.state.targetND,
+			updateText: this.scaleOptions.updateText,
+			sameND: current === this.scaleOptions.targetND,
 			table: plan ? { from: plan.from.table, to: plan.to.table } : null,
 			sections,
 			warnings,
@@ -120,8 +120,8 @@ export class ScaleThreatApp extends HandlebarsApplicationMixin(ApplicationV2) {
 		this.element.addEventListener("change", (event) => {
 			const el = event.target;
 			if (!el?.name) return;
-			if (el.name === "updateText") this.state.updateText = el.checked;
-			else if (el.name in this.state) this.state[el.name] = el.value;
+			if (el.name === "updateText") this.scaleOptions.updateText = el.checked;
+			else if (el.name in this.scaleOptions) this.scaleOptions[el.name] = el.value;
 			this.render();
 		});
 	}
@@ -148,7 +148,7 @@ export class ScaleThreatApp extends HandlebarsApplicationMixin(ApplicationV2) {
 		event.preventDefault();
 		const ok = await foundry.applications.api.DialogV2.confirm({
 			window: { title: game.i18n.localize("T20ESC.ConfirmTitle") },
-			content: `<p>${game.i18n.format("T20ESC.ConfirmApply", { name: foundry.utils.escapeHTML?.(this.actor.name) ?? this.actor.name, nd: this.state.targetND })}</p>`
+			content: `<p>${game.i18n.format("T20ESC.ConfirmApply", { name: foundry.utils.escapeHTML?.(this.actor.name) ?? this.actor.name, nd: this.scaleOptions.targetND })}</p>`
 		});
 		if (ok) await this.#run(false);
 	}
