@@ -14,14 +14,32 @@
 		"ConfirmApply": "Change <strong>{name}</strong> to CR {nd}? The original sheet will be modified.",
 		"SameND": "Target CR equals the current one. Values will only be readjusted to the table.",
 		"TextUpdated": "Description updated (DCs, checks and damage in text).",
-		"Role": { "label": "Role", "solo": "Solo", "lackey": "Minion", "special": "Special" },
-		"Tier": { "iniciante": "Beginner", "veterano": "Veteran", "campeao": "Champion", "lenda": "Legend", "lmais": "L+" },
+		"Role": {
+			"label": "Role",
+			"solo": "Solo",
+			"lackey": "Minion",
+			"special": "Special"
+		},
+		"Tier": {
+			"iniciante": "Beginner",
+			"veterano": "Veteran",
+			"campeao": "Champion",
+			"lenda": "Legend",
+			"lmais": "L+"
+		},
 		"DamageMode": {
 			"label": "Attack damage",
 			"table": "Match table average damage",
 			"proportional": "Keep current proportion"
 		},
-		"Ref": { "attack": "Attack", "damage": "Damage", "defense": "Defense", "saves": "Saves S/M/W", "hp": "HP", "dc": "DC" },
+		"Ref": {
+			"attack": "Attack",
+			"damage": "Damage",
+			"defense": "Defense",
+			"saves": "Saves S/M/W",
+			"hp": "HP",
+			"dc": "DC"
+		},
 		"Section": {
 			"general": "General",
 			"defense": "Defense and Hit Points",
@@ -60,9 +78,27 @@
 			"npcOnly": "Only threats (NPC) can be scaled."
 		},
 		"Settings": {
-			"damageMode": { "name": "Default attack damage", "hint": "How attack damage is adjusted when scaling." },
-			"updateText": { "name": "Update texts by default", "hint": "Adjusts DCs, checks and damage formulas inside descriptions." },
-			"openCopy": { "name": "Open created copy", "hint": "Opens the copy's sheet after creating it." }
+			"damageMode": {
+				"name": "Default attack damage",
+				"hint": "How attack damage is adjusted when scaling."
+			},
+			"updateText": {
+				"name": "Update texts by default",
+				"hint": "Adjusts DCs, checks and damage formulas inside descriptions."
+			},
+			"openCopy": {
+				"name": "Open created copy",
+				"hint": "Opens the copy's sheet after creating it."
+			},
+			"statsMode": {
+				"name": "Saves, Defense and attack (default)",
+				"hint": "Keep the original deviation from the table (book rule) or match the new CR values exactly."
+			}
+		},
+		"StatsMode": {
+			"label": "Saves, Defense and attack",
+			"keep": "Keep original deviations (book rule)",
+			"table": "Match the table"
 		}
 	}
 }

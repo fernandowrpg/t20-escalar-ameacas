@@ -18,6 +18,18 @@ Hooks.once("init", () => {
 		},
 		default: "table"
 	});
+	game.settings.register(MODULE_ID, "statsMode", {
+		name: "T20ESC.Settings.statsMode.name",
+		hint: "T20ESC.Settings.statsMode.hint",
+		scope: "world",
+		config: true,
+		type: String,
+		choices: {
+			keep: "T20ESC.StatsMode.keep",
+			table: "T20ESC.StatsMode.table"
+		},
+		default: "keep"
+	});
 	game.settings.register(MODULE_ID, "updateText", {
 		name: "T20ESC.Settings.updateText.name",
 		hint: "T20ESC.Settings.updateText.hint",

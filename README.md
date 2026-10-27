@@ -38,6 +38,13 @@ A janela mostra o **ND atual** e o **ND de destino** (com patamar e papel), os p
 
 Atributos, deslocamento e equipamento não mudam, como recomenda a regra.
 
+### Resistências, Defesa e ataque: duas opções
+
+- **Manter diferenças do original (regra do livro, padrão):** se a ameaça original tinha Fort 1 abaixo da tabela, continua 1 abaixo no novo ND.
+- **Igualar à tabela:** Fort/Ref/Von, Defesa e ataque recebem exatamente os valores do novo ND. Se houver vários ataques, o maior vai ao valor da tabela e os demais mantêm a diferença em relação a ele.
+
+O padrão pode ser alterado nas configurações do módulo.
+
 ## API
 
 ```js

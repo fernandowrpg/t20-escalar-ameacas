@@ -14,14 +14,32 @@
 		"ConfirmApply": "Alterar <strong>{name}</strong> para ND {nd}? A ficha original será modificada.",
 		"SameND": "O ND de destino é igual ao atual. Os valores serão apenas reajustados à tabela.",
 		"TextUpdated": "Descrição atualizada (CDs, testes e dano no texto).",
-		"Role": { "label": "Papel", "solo": "Solo", "lackey": "Lacaio", "special": "Especial" },
-		"Tier": { "iniciante": "Iniciante", "veterano": "Veterano", "campeao": "Campeão", "lenda": "Lenda", "lmais": "L+" },
+		"Role": {
+			"label": "Papel",
+			"solo": "Solo",
+			"lackey": "Lacaio",
+			"special": "Especial"
+		},
+		"Tier": {
+			"iniciante": "Iniciante",
+			"veterano": "Veterano",
+			"campeao": "Campeão",
+			"lenda": "Lenda",
+			"lmais": "L+"
+		},
 		"DamageMode": {
 			"label": "Dano dos ataques",
 			"table": "Igualar ao dano médio da tabela",
 			"proportional": "Manter proporção atual"
 		},
-		"Ref": { "attack": "Ataque", "damage": "Dano", "defense": "Defesa", "saves": "Res. F/M/Fr", "hp": "PV", "dc": "CD" },
+		"Ref": {
+			"attack": "Ataque",
+			"damage": "Dano",
+			"defense": "Defesa",
+			"saves": "Res. F/M/Fr",
+			"hp": "PV",
+			"dc": "CD"
+		},
 		"Section": {
 			"general": "Geral",
 			"defense": "Defesa e Pontos de Vida",
@@ -60,9 +78,27 @@
 			"npcOnly": "Apenas ameaças (NPC) podem ser escaladas."
 		},
 		"Settings": {
-			"damageMode": { "name": "Dano padrão dos ataques", "hint": "Como o dano dos ataques é ajustado ao escalar." },
-			"updateText": { "name": "Atualizar textos por padrão", "hint": "Ajusta CDs, testes e fórmulas de dano dentro das descrições." },
-			"openCopy": { "name": "Abrir cópia criada", "hint": "Abre a ficha da cópia depois de criá-la." }
+			"damageMode": {
+				"name": "Dano padrão dos ataques",
+				"hint": "Como o dano dos ataques é ajustado ao escalar."
+			},
+			"updateText": {
+				"name": "Atualizar textos por padrão",
+				"hint": "Ajusta CDs, testes e fórmulas de dano dentro das descrições."
+			},
+			"openCopy": {
+				"name": "Abrir cópia criada",
+				"hint": "Abre a ficha da cópia depois de criá-la."
+			},
+			"statsMode": {
+				"name": "Resistências, Defesa e ataque (padrão)",
+				"hint": "Manter a diferença do original em relação à tabela (regra do livro) ou igualar exatamente aos valores do novo ND."
+			}
+		},
+		"StatsMode": {
+			"label": "Resistências, Defesa e ataque",
+			"keep": "Manter diferenças do original (regra do livro)",
+			"table": "Igualar à tabela"
 		}
 	}
 }

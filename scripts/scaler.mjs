@@ -112,7 +112,9 @@ export function updateText(text, ctx) {
 /**
  * Calcula todas as mudanças necessárias para levar a ameaça a um novo ND.
  * @param {ThreatSnapshot} snap
- * @param {{targetND:string, role?:string, damageMode?:"table"|"proportional", updateText?:boolean}} options
+ * @param {{targetND:string, role?:string, damageMode?:"table"|"proportional", statsMode?:"keep"|"table", updateText?:boolean}} options
+ *   statsMode "keep" mantém a diferença do original em relação à tabela (regra do livro);
+ *   "table" iguala resistências, Defesa e ataque aos valores do novo ND.
  */
 export function computePlan(snap, options) {
 	const warnings = [];
@@ -138,6 +140,7 @@ export function computePlan(snap, options) {
 	if (oldIdx < 0) throw new Error(`ND inválido na ficha: ${fromND}`);
 	if (newIdx < 0) throw new Error(`ND de destino inválido: ${toND}`);
 	const damageMode = options.damageMode ?? "table";
+	const matchTable = options.statsMode === "table";
 	const doText = options.updateText !== false;
 	const rollData = snap.rollData ?? {};
 
@@ -173,7 +176,7 @@ export function computePlan(snap, options) {
 	}
 
 	// --- Defesa, PV, PM, CD ------------------------------------------------
-	const dDef = Tn.defesa - To.defesa;
+	const dDef = matchTable ? Tn.defesa - (Number(snap.defesa?.value) || 0) : Tn.defesa - To.defesa;
 	if (snap.defesa) {
 		actorUpdate["system.attributes.defesa.base"] = (Number(snap.defesa.base) || 0) + dDef;
 		change("defense", "defesa", snap.defesa.value, (Number(snap.defesa.value) || 0) + dDef);
@@ -209,7 +212,9 @@ export function computePlan(snap, options) {
 	// --- Testes de resistência --------------------------------------------
 	const saveKeys = SAVES.filter((k) => snap.skills?.[k]);
 	const ranked = [...saveKeys].sort((a, b) => (snap.skills[b].value ?? 0) - (snap.skills[a].value ?? 0));
-	const rankDelta = [Tn.forte - To.forte, Tn.media - To.media, Tn.fraca - To.fraca];
+	const rankDelta = matchTable
+		? ranked.map((k, i) => [Tn.forte, Tn.media, Tn.fraca][i] - (snap.skills[k].value ?? 0))
+		: [Tn.forte - To.forte, Tn.media - To.media, Tn.fraca - To.fraca];
 	const rankName = ["forte", "média", "fraca"];
 	ranked.forEach((key, i) => {
 		const s = snap.skills[key];
@@ -249,19 +254,25 @@ export function computePlan(snap, options) {
 		const tNew = isPrimary ? Tn : Tn2;
 		const current = total(g);
 		const target = damageMode === "table" ? tNew.dano : Math.round(current * (tNew.dano / tOld.dano));
-		groupInfo[g] = { isPrimary, dAtk: tNew.ataque - tOld.ataque, current, target };
+		// Igualando à tabela, o maior ataque do grupo vai ao valor da tabela e os
+		// demais mantêm a diferença em relação a ele.
+		const best = Math.max(...groups[g].filter((w) => w.attack !== null).map((w) => w.attack));
+		const dAtk = matchTable && Number.isFinite(best) ? tNew.ataque - best : tNew.ataque - tOld.ataque;
+		groupInfo[g] = { isPrimary, dAtk, current, target };
 		change("attacks", isPrimary ? "damagePrimary" : "damageSecondary", current, target);
 	}
 
 	// Perícias de ataque (Luta / Pontaria) — o ataque das armas deriva delas.
-	const dAtkPrimary = Tn.ataque - To.ataque;
+	const dAtkPrimary = groupInfo[primary]?.dAtk ?? Tn.ataque - To.ataque;
 	const skillAtkDelta = {};
 	for (const key of ATTACK_SKILLS) {
 		const s = snap.skills?.[key];
 		if (!s) continue;
 		const used = weapons.filter((w) => w.skill === key);
 		if (!used.length && !s.treinado) continue;
-		const delta = used.length ? groupInfo[used[0].group].dAtk : dAtkPrimary;
+		const delta = used.length
+			? groupInfo[used[0].group].dAtk
+			: matchTable ? Tn.ataque - s.value : Tn.ataque - To.ataque;
 		skillAtkDelta[key] = delta;
 		actorUpdate[`system.pericias.${key}.outros`] = (Number(s.outros) || 0) + delta - autoDelta(s);
 		change("attacks", s.label || key, signed(s.value), signed(s.value + delta));

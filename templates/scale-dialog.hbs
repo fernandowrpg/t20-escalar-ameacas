@@ -34,6 +34,14 @@
 			</select>
 		</div>
 		<div class="form-group">
+			<label>{{localize "T20ESC.StatsMode.label"}}</label>
+			<select name="statsMode">
+				{{#each statsOptions}}
+				<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+				{{/each}}
+			</select>
+		</div>
+		<div class="form-group">
 			<label>{{localize "T20ESC.DamageMode.label"}}</label>
 			<select name="damageMode">
 				{{#each damageOptions}}

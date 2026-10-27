@@ -92,7 +92,7 @@ export async function copyAndApply(actor, plan) {
 }
 
 /** API pública: escala sem abrir a janela. */
-export async function scaleActor(actor, targetND, { role, damageMode, updateText, copy = false } = {}) {
-	const plan = planFor(actor, { targetND: String(targetND), role, damageMode, updateText });
+export async function scaleActor(actor, targetND, { role, damageMode, statsMode, updateText, copy = false } = {}) {
+	const plan = planFor(actor, { targetND: String(targetND), role, damageMode, statsMode, updateText });
 	return copy ? copyAndApply(actor, plan) : applyPlan(actor, plan);
 }

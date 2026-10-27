@@ -20,6 +20,7 @@ export class ScaleThreatApp extends HandlebarsApplicationMixin(ApplicationV2) {
 			targetND: ND_LIST[Math.min(ND_LIST.length - 1, idx + 1)],
 			role: role ?? "solo",
 			damageMode: game.settings.get(MODULE_ID, "damageMode"),
+			statsMode: game.settings.get(MODULE_ID, "statsMode"),
 			updateText: game.settings.get(MODULE_ID, "updateText")
 		};
 	}
@@ -105,6 +106,11 @@ export class ScaleThreatApp extends HandlebarsApplicationMixin(ApplicationV2) {
 				value: m,
 				label: loc(`T20ESC.DamageMode.${m}`),
 				selected: m === this.scaleOptions.damageMode
+			})),
+			statsOptions: ["keep", "table"].map((m) => ({
+				value: m,
+				label: loc(`T20ESC.StatsMode.${m}`),
+				selected: m === this.scaleOptions.statsMode
 			})),
 			updateText: this.scaleOptions.updateText,
 			sameND: current === this.scaleOptions.targetND,

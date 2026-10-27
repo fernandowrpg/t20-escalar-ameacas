@@ -127,3 +127,58 @@ test("updateText ajusta CD, testes e rolagens inline", () => {
 	assert.match(out, /CD&nbsp;27/);
 	assert.ok(!out.includes("2d6+10"));
 });
+
+function berBaram() {
+	// Ameaças de Arton, p. 95 (ND 8, solo): Defesa 30, Fort +20, Ref +17, Von +7, Marrada +26.
+	return {
+		name: "Ber-baram",
+		nd: "8",
+		role: "solo",
+		defesa: { value: 30, base: 25 },
+		pv: { value: 320, max: 320 },
+		pm: { value: 0, max: 0 },
+		cd: 26,
+		skills: { fort: skill(20, 11), refl: skill(17, 8), vont: skill(7, 1), luta: skill(26, 10, true) },
+		detalhes: {},
+		items: [
+			{
+				_id: "w1",
+				name: "Marrada",
+				type: "arma",
+				system: {
+					qtd: 0,
+					proposito: "corpo-a-corpo",
+					description: { value: "" },
+					rolls: [
+						{ name: "Ataque", key: "ataque0", type: "ataque", parts: [["1d20", "", ""], ["luta", "", ""], ["0", "", ""]] },
+						{ name: "Dano", key: "dano1", type: "dano", parts: [["2d10+12", "impacto", ""], ["3d6", "fogo", ""]] }
+					]
+				}
+			}
+		],
+		rollData: { for: 8, des: 5 }
+	};
+}
+
+test("Ber-baram ND 8 → 2 mantendo diferenças (regra do livro)", () => {
+	const p = computePlan(berBaram(), { targetND: "2" });
+	const get = (l) => p.changes.find((c) => c.label === l).to;
+	assert.match(get("fort"), /^\+12 /);
+	assert.match(get("refl"), /^\+9 /);
+	assert.match(get("vont"), /^\+1 /);
+	assert.equal(get("defesa"), "16");
+	assert.equal(get("luta"), "+12");
+});
+
+test("Ber-baram ND 8 → 2 igualando à tabela", () => {
+	const p = computePlan(berBaram(), { targetND: "2", statsMode: "table" });
+	const get = (l) => p.changes.find((c) => c.label === l).to;
+	assert.match(get("fort"), /^\+13 /);
+	assert.match(get("refl"), /^\+7 /);
+	assert.match(get("vont"), /^\+2 /);
+	assert.equal(get("defesa"), "19");
+	assert.equal(get("luta"), "+12");
+	// Sistema soma ½ND e treino automaticamente: ND 8 → 2 tira 3 e 2.
+	assert.equal(p.actorUpdate["system.pericias.fort.outros"], 11 + (13 - 20) + 3);
+	assert.equal(p.actorUpdate["system.attributes.defesa.base"], 25 + (19 - 30));
+});
