@@ -2,13 +2,25 @@ import { computePlan } from "./scaler.mjs";
 
 export const MODULE_ID = "t20-escalar-ameacas";
 
+/**
+ * Entradas vazias deixadas por versões antigas do T20 ("ofi0" e "_pc0"). O próprio
+ * sistema as remove na migração 1.5.010, mas fichas importadas depois ainda podem
+ * trazê-las. Só removemos se estiverem sem nome, para não apagar perícia real.
+ */
+const LEGACY_SKILLS = ["ofi0", "_pc0"];
+
+function legacySkillKeys(pericias) {
+	return LEGACY_SKILLS.filter((k) => pericias?.[k] && !pericias[k].label && !pericias[k].nome);
+}
+
 /** Converte um Actor do Foundry na estrutura usada por computePlan. */
 export function snapshotActor(actor) {
 	const sys = actor.system;
 	const src = actor._source?.system ?? {};
 	const skills = {};
+	const legacy = legacySkillKeys(src.pericias);
 	for (const [key, s] of Object.entries(sys.pericias ?? {})) {
-		if (!s || typeof s !== "object") continue;
+		if (!s || typeof s !== "object" || legacy.includes(key)) continue;
 		const label = s.label || CONFIG.T20?.pericias?.[key]?.label || key;
 		skills[key] = {
 			value: Number(s.value) || 0,
@@ -56,6 +68,7 @@ export async function applyPlan(actor, plan) {
 		...(actor.getFlag(MODULE_ID, "history") ?? []),
 		{ from: plan.from.nd, to: plan.to.nd, role: plan.to.role, date: Date.now() }
 	];
+	for (const key of legacySkillKeys(actor._source?.system?.pericias)) update[`system.pericias.-=${key}`] = null;
 	await actor.update(update);
 	const ids = new Set(actor.items.map((i) => i.id));
 	const items = plan.itemUpdates.filter((u) => ids.has(u._id));
@@ -67,6 +80,7 @@ export async function applyPlan(actor, plan) {
 export async function copyAndApply(actor, plan) {
 	const data = actor.toObject();
 	delete data._id;
+	for (const key of legacySkillKeys(data.system?.pericias)) delete data.system.pericias[key];
 	const name = game.i18n.format("T20ESC.CopyName", { name: actor.name, nd: plan.to.nd });
 	data.name = name;
 	if (data.prototypeToken) data.prototypeToken.name = name;
